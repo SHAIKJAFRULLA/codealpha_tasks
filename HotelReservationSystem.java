@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class Room {
     int roomId;
@@ -88,29 +87,59 @@ class Hotel {
 
 public class HotelReservationSystem {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         Hotel hotel = new Hotel("Grand Stay Hotel");
 
-        // Adding rooms
         hotel.addRoom(new Room(101, "Single", 100));
         hotel.addRoom(new Room(102, "Double", 150));
         hotel.addRoom(new Room(103, "Suite", 300));
 
-        System.out.println("\nAvailable Rooms:");
-        for (Room room : hotel.searchRooms(null)) {
-            System.out.println(room);
-        }
+        while (true) {
+            System.out.println("\nHotel Reservation System");
+            System.out.println("1. View Available Rooms");
+            System.out.println("2. Make a Reservation");
+            System.out.println("3. View Bookings");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
 
-        // Making a reservation
-        System.out.println("\nMaking Reservation:");
-        System.out.println(hotel.makeReservation(101, "John Doe", "2025-01-25", "2025-01-28", 300));
+            int choice = scanner.nextInt();
+            scanner.nextLine(); 
 
-        System.out.println("\nAvailable Rooms After Reservation:");
-        for (Room room : hotel.searchRooms(null)) {
-            System.out.println(room);
-        }
+            switch (choice) {
+                case 1:
+                    System.out.println("\nAvailable Rooms:");
+                    for (Room room : hotel.searchRooms(null)) {
+                        System.out.println(room);
+                    }
+                    break;
+                case 2:
+                    System.out.print("Enter Room ID: ");
+                    int roomId = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter Guest Name: ");
+                    String guestName = scanner.nextLine();
+                    System.out.print("Enter Check-in Date (YYYY-MM-DD): ");
+                    String checkIn = scanner.nextLine();
+                    System.out.print("Enter Check-out Date (YYYY-MM-DD): ");
+                    String checkOut = scanner.nextLine();
+                    System.out.print("Enter Payment Amount: ");
+                    double paymentAmount = scanner.nextDouble();
 
-        System.out.println("\nBookings:");
-        for (String booking : hotel.viewBookings()) {
-            System.out.println(booking);
+                    System.out.println(hotel.makeReservation(roomId, guestName, checkIn, checkOut, paymentAmount));
+                    break;
+                case 3:
+                    System.out.println("\nBookings:");
+                    for (String booking : hotel.viewBookings()) {
+                        System.out.println(booking);
+                    }
+                    break;
+                case 4:
+                    System.out.println("Exiting the system. Goodbye!");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
         }
     }
+}
